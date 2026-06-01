@@ -1,0 +1,15 @@
+# Arquivos do VSCode
+.vscode/
+
+# Logs
+*.log
+
+# Arquivos temporários
+*.tmp
+
+# Arquivos do sistema
+Thumbs.db
+.DS_Store
+
+# Configurações locais (opcional)
+config/conexao_local.php

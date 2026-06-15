@@ -1,3 +1,4 @@
+
 <?php
 
 require_once "config/auth.php";
@@ -15,7 +16,7 @@ require_once "config/auth.php";
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<link rel="stylesheet" 
+<link rel="stylesheet"
 href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -50,6 +51,7 @@ body{
     padding:12px;
     border-radius:10px;
     margin-bottom:10px;
+    transition:0.3s;
 }
 
 .sidebar a:hover{
@@ -73,6 +75,10 @@ body{
     transform:translateY(-5px);
 }
 
+.btn{
+    border-radius:10px;
+}
+
 </style>
 
 </head>
@@ -81,93 +87,145 @@ body{
 
 <div class="sidebar">
 
-<div class="logo">
-<i class="bi bi-grid-3x3-gap-fill"></i>
-SistemaWeb
-</div>
+    <div class="logo">
+        <i class="bi bi-grid-3x3-gap-fill"></i>
+        SistemaWeb
+    </div>
 
-<a href="dashboard.php">
-<i class="bi bi-speedometer2"></i>
-Dashboard
-</a>
+    <a href="dashboard.php">
+        <i class="bi bi-speedometer2"></i>
+        Dashboard
+    </a>
 
-<a href="logout.php">
-<i class="bi bi-box-arrow-right"></i>
-Sair
-</a>
+    <a href="noticias/listar.php">
+        <i class="bi bi-newspaper"></i>
+        Gerenciar Notícias
+    </a>
+
+    <a href="logout.php">
+        <i class="bi bi-box-arrow-right"></i>
+        Sair
+    </a>
 
 </div>
 
 <div class="content">
 
-<h1>
-Olá,
-<span style="color:#4285F4">
-<?= $_SESSION["nome"] ?>
-</span>
-</h1>
+    <h2>
+        Olá,
+        <span style="color:#4285F4;">
+            <?= htmlspecialchars($_SESSION["nome"]) ?>
+        </span>
+    </h2>
 
-<p class="text-muted">
-Bem-vindo ao Sistema de Notícias.
-</p>
+    <p class="text-muted">
+        Bem-vindo ao Sistema de Notícias.
+    </p>
 
-<br>
+    <div class="row mt-4">
 
-<div class="row">
+        <div class="col-md-6 mb-4">
 
-<div class="col-md-6">
+            <div class="card p-4 h-100">
 
-<div class="card p-4">
+                <h5>
+                    <i class="bi bi-person-circle"></i>
+                    Dados do Usuário
+                </h5>
 
-<h5>
-<i class="bi bi-person-circle"></i>
-Dados do Usuário
-</h5>
+                <hr>
 
-<hr>
+                <p>
+                    <strong>Nome:</strong>
+                    <?= htmlspecialchars($_SESSION["nome"]) ?>
+                </p>
 
-<p>
-<strong>Nome:</strong>
-<?= $_SESSION["nome"] ?>
-</p>
+                <p>
+                    <strong>Tipo:</strong>
+                    <?= ucfirst(htmlspecialchars($_SESSION["tipo"])) ?>
+                </p>
 
-<p>
-<strong>Tipo:</strong>
-<?= ucfirst($_SESSION["tipo"]) ?>
-</p>
+            </div>
 
-</div>
+        </div>
 
-</div>
+        <div class="col-md-6 mb-4">
 
-<div class="col-md-6">
+            <div class="card p-4 h-100">
 
-<div class="card p-4">
+                <h5>
+                    <i class="bi bi-shield-check"></i>
+                    Permissões
+                </h5>
 
-<h5>
-<i class="bi bi-shield-check"></i>
-Permissões
-</h5>
+                <hr>
 
-<hr>
+                <?php if($_SESSION["tipo"] == "admin"): ?>
 
-<p>
-Você está autenticado no sistema.
-</p>
+                    <p>
+                        Você possui acesso de <strong>Administrador</strong>.
+                    </p>
 
-<p>
-Seu perfil possui acesso de
-<strong>
-<?= ucfirst($_SESSION["tipo"]) ?>
-</strong>.
-</p>
+                    <p>
+                        Pode cadastrar, editar e desativar qualquer notícia.
+                    </p>
 
-</div>
+                <?php else: ?>
 
-</div>
+                    <p>
+                        Você possui acesso de <strong>Usuário Comum</strong>.
+                    </p>
+
+                    <p>
+                        Pode cadastrar notícias e editar/desativar apenas as suas.
+                    </p>
+
+                <?php endif; ?>
+
+            </div>
+
+        </div>
+
+        <div class="col-12">
+
+            <div class="card p-4">
+
+                <h5>
+                    <i class="bi bi-newspaper"></i>
+                    Área de Notícias
+                </h5>
+
+                <hr>
+
+                <p>
+                    Utilize os botões abaixo para cadastrar novas notícias ou visualizar todas as notícias disponíveis no sistema.
+                </p>
+
+                <div class="d-flex gap-3">
+
+                    <a href="noticias/cadastrar.php"
+                       class="btn btn-success">
+                        <i class="bi bi-plus-circle"></i>
+                        Nova Notícia
+                    </a>
+
+                    <a href="noticias/listar.php"
+                       class="btn btn-primary">
+                        <i class="bi bi-card-list"></i>
+                        Visualizar Notícias
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
 
 </body>
 
 </html>
+```

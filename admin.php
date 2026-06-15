@@ -45,7 +45,12 @@ SistemaWeb
 Dashboard
 </a>
 
-<a href="usuarios/listar.php">
+<a href="noticias/listar.php">
+    <i class="bi bi-newspaper"></i>
+    Gerenciar Notícias
+</a>
+
+<a href="usuarios/listar_usuario.php">
 Usuários
 </a>
 

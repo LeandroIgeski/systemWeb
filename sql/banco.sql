@@ -29,3 +29,16 @@ VALUES
 'comum',
 1
 );
+
+USE sistema_noticias;
+
+CREATE TABLE noticias (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    data_noticia DATE NOT NULL,
+    texto TEXT NOT NULL,
+    imagem VARCHAR(255),
+    usuario_id INT NOT NULL,
+    ativo TINYINT(1) DEFAULT 1,
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
+);

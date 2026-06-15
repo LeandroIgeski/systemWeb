@@ -101,7 +101,7 @@ SistemaWeb
 Dashboard
 </a>
 
-<a href="listar.php">
+<a href="listar_usuario.php">
 Usuários
 </a>
 
@@ -122,7 +122,7 @@ Gerenciamento de Usuários
 </h2>
 
 <a
-href="cadastrar.php"
+href="cadastrar_usuario.php"
 class="btn btn-primary">
 
 Novo Usuário
@@ -205,7 +205,7 @@ Inativo
 <td>
 
 <a
-href="editar.php?id=<?= $usuario['id'] ?>"
+href="editar_usuario.php?id=<?= $usuario['id'] ?>"
 class="btn btn-warning btn-sm">
 
 Editar
@@ -213,7 +213,7 @@ Editar
 </a>
 
 <a
-href="desativar.php?id=<?= $usuario['id'] ?>"
+href="desativar_usuario.php?id=<?= $usuario['id'] ?>"
 class="btn btn-danger btn-sm">
 
 Desativar

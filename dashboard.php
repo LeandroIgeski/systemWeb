@@ -1,18 +1,29 @@
-
 <?php
-
 require_once "config/auth.php";
+require_once "config/conexao.php";
 
+// dados do admin (só se for admin)
+$totalUsuarios = 0;
+$totalAtivos = 0;
+$totalAdmins = 0;
+
+if ($_SESSION["tipo"] === "admin") {
+
+    $totalUsuarios = $conn->query("SELECT COUNT(*) AS total FROM usuarios")->fetch_assoc()['total'];
+
+    $totalAtivos = $conn->query("SELECT COUNT(*) AS total FROM usuarios WHERE ativo = 1")->fetch_assoc()['total'];
+
+    $totalAdmins = $conn->query("SELECT COUNT(*) AS total FROM usuarios WHERE tipo = 'admin'")->fetch_assoc()['total'];
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
 
 <head>
-
 <meta charset="UTF-8">
 
-<title>Painel do Usuário</title>
+<title>Dashboard</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -22,7 +33,6 @@ href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.m
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-
 body{
     font-family:'Poppins',sans-serif;
     background:#f5f7fb;
@@ -51,7 +61,6 @@ body{
     padding:12px;
     border-radius:10px;
     margin-bottom:10px;
-    transition:0.3s;
 }
 
 .sidebar a:hover{
@@ -68,17 +77,7 @@ body{
     border:none;
     border-radius:15px;
     box-shadow:0 4px 15px rgba(0,0,0,.08);
-    transition:.3s;
 }
-
-.card:hover{
-    transform:translateY(-5px);
-}
-
-.btn{
-    border-radius:10px;
-}
-
 </style>
 
 </head>
@@ -87,145 +86,76 @@ body{
 
 <div class="sidebar">
 
-    <div class="logo">
-        <i class="bi bi-grid-3x3-gap-fill"></i>
-        SistemaWeb
-    </div>
+    <div class="logo">SistemaWeb</div>
 
     <a href="dashboard.php">
-        <i class="bi bi-speedometer2"></i>
-        Dashboard
+        <i class="bi bi-speedometer2"></i> Dashboard
     </a>
 
     <a href="noticias/listar.php">
-        <i class="bi bi-newspaper"></i>
-        Gerenciar Notícias
+        <i class="bi bi-newspaper"></i> Notícias
     </a>
 
+    <!-- 🔥 só admin vê -->
+    <?php if ($_SESSION["tipo"] === "admin"): ?>
+        <a href="usuarios/listar_usuario.php">
+            <i class="bi bi-people"></i> Usuários
+        </a>
+    <?php endif; ?>
+
     <a href="logout.php">
-        <i class="bi bi-box-arrow-right"></i>
-        Sair
+        <i class="bi bi-box-arrow-right"></i> Sair
     </a>
 
 </div>
 
 <div class="content">
 
-    <h2>
-        Olá,
-        <span style="color:#4285F4;">
-            <?= htmlspecialchars($_SESSION["nome"]) ?>
-        </span>
-    </h2>
+    <h2>Olá, <?= htmlspecialchars($_SESSION["nome"]) ?></h2>
 
     <p class="text-muted">
-        Bem-vindo ao Sistema de Notícias.
+        Bem-vindo ao sistema de notícias.
     </p>
 
-    <div class="row mt-4">
+    <!-- 🔥 PAINEL ADMIN -->
+    <?php if ($_SESSION["tipo"] === "admin"): ?>
 
-        <div class="col-md-6 mb-4">
+        <div class="row">
 
-            <div class="card p-4 h-100">
-
-                <h5>
-                    <i class="bi bi-person-circle"></i>
-                    Dados do Usuário
-                </h5>
-
-                <hr>
-
-                <p>
-                    <strong>Nome:</strong>
-                    <?= htmlspecialchars($_SESSION["nome"]) ?>
-                </p>
-
-                <p>
-                    <strong>Tipo:</strong>
-                    <?= ucfirst(htmlspecialchars($_SESSION["tipo"])) ?>
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="col-md-6 mb-4">
-
-            <div class="card p-4 h-100">
-
-                <h5>
-                    <i class="bi bi-shield-check"></i>
-                    Permissões
-                </h5>
-
-                <hr>
-
-                <?php if($_SESSION["tipo"] == "admin"): ?>
-
-                    <p>
-                        Você possui acesso de <strong>Administrador</strong>.
-                    </p>
-
-                    <p>
-                        Pode cadastrar, editar e desativar qualquer notícia.
-                    </p>
-
-                <?php else: ?>
-
-                    <p>
-                        Você possui acesso de <strong>Usuário Comum</strong>.
-                    </p>
-
-                    <p>
-                        Pode cadastrar notícias e editar/desativar apenas as suas.
-                    </p>
-
-                <?php endif; ?>
-
-            </div>
-
-        </div>
-
-        <div class="col-12">
-
-            <div class="card p-4">
-
-                <h5>
-                    <i class="bi bi-newspaper"></i>
-                    Área de Notícias
-                </h5>
-
-                <hr>
-
-                <p>
-                    Utilize os botões abaixo para cadastrar novas notícias ou visualizar todas as notícias disponíveis no sistema.
-                </p>
-
-                <div class="d-flex gap-3">
-
-                    <a href="noticias/cadastrar.php"
-                       class="btn btn-success">
-                        <i class="bi bi-plus-circle"></i>
-                        Nova Notícia
-                    </a>
-
-                    <a href="noticias/listar.php"
-                       class="btn btn-primary">
-                        <i class="bi bi-card-list"></i>
-                        Visualizar Notícias
-                    </a>
-
+            <div class="col-md-4">
+                <div class="card p-3">
+                    <h5>Total Usuários</h5>
+                    <h2><?= $totalUsuarios ?></h2>
                 </div>
+            </div>
 
+            <div class="col-md-4">
+                <div class="card p-3">
+                    <h5>Usuários Ativos</h5>
+                    <h2><?= $totalAtivos ?></h2>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card p-3">
+                    <h5>Admins</h5>
+                    <h2><?= $totalAdmins ?></h2>
+                </div>
             </div>
 
         </div>
 
-    </div>
+    <?php else: ?>
+
+        <!-- 🔥 PAINEL USUÁRIO -->
+        <div class="card p-4 mt-4">
+            <h5>Área do Usuário</h5>
+            <p>Você pode cadastrar e visualizar notícias.</p>
+        </div>
+
+    <?php endif; ?>
 
 </div>
 
 </body>
-
 </html>
-```

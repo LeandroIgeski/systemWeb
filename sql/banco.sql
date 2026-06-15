@@ -42,3 +42,6 @@ CREATE TABLE noticias (
     ativo TINYINT(1) DEFAULT 1,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 );
+
+ALTER TABLE noticias
+ADD COLUMN desativado_por ENUM('autor', 'admin') DEFAULT NULL;

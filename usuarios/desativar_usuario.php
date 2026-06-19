@@ -15,5 +15,5 @@ $stmt->bind_param("i", $id);
 
 $stmt->execute();
 
-header("Location: listar.php");
+header("Location: listar_usuario.php");
 exit();

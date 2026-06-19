@@ -6,7 +6,6 @@ require_once "config/conexao.php";
 $totalUsuarios = 0;
 $totalAtivos = 0;
 $totalAdmins = 0;
-
 if ($_SESSION["tipo"] === "admin") {
 
     $totalUsuarios = $conn->query("SELECT COUNT(*) AS total FROM usuarios")->fetch_assoc()['total'];

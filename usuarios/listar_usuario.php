@@ -212,13 +212,33 @@ Editar
 
 </a>
 
-<a
-href="desativar_usuario.php?id=<?= $usuario['id'] ?>"
-class="btn btn-danger btn-sm">
+<td>
 
-Desativar
+<?php if($usuario['ativo'] == 1){ ?>
 
-</a>
+    <a
+    href="desativar_usuario.php?id=<?= $usuario['id'] ?>"
+    class="btn btn-danger btn-sm"
+    onclick="return confirm('Deseja realmente desativar este usuário?')">
+
+        Desativar
+
+    </a>
+
+<?php }else{ ?>
+
+    <a
+    href="reativar_usuario.php?id=<?= $usuario['id'] ?>"
+    class="btn btn-success btn-sm"
+    onclick="return confirm('Deseja reativar este usuário?')">
+
+        Reativar
+
+    </a>
+
+<?php } ?>
+
+</td>
 
 </td>
 
